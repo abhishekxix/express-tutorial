@@ -21,8 +21,31 @@ app.get('/api/products/:productId', (req, res) => {
   const singleProduct = products.find(
     (product) => product.id === Number(productId)
   );
-  if (singleProduct) res.json(singleProduct);
+  if (singleProduct) return res.json(singleProduct);
+
   return res.status(404).send('Product does not exist');
+});
+
+// Query string parameters
+app.get('/api/v1/query', (req, res) => {
+  // console.log(req.query);
+  const { search, limit } = req.query;
+  let sortedProducts = [...products];
+
+  if (search) {
+    sortedProducts = sortedProducts.filter((product) => {
+      return product.name.startsWith(search);
+    });
+  }
+
+  if (sortedProducts.length === 0) {
+    return res.status(200).json({ success: true, data: [] });
+  }
+  if (limit) {
+    sortedProducts = sortedProducts.slice(0, Number(limit));
+  }
+
+  return res.json(sortedProducts);
 });
 
 app.listen(3000, () => {
