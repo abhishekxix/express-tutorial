@@ -1,27 +1,20 @@
 const express = require('express');
 const app = express();
+const path = require('path');
 
-app.get('/', (req, res) => {
-  res.send('Home page');
-});
+// setup static and middleware
+app.use(express.static('./public'));
 
-app.get('/about', (req, res) => {
-  res.send('About Page');
-});
+// app.get('/', (req, res) => {
+//   res.sendFile(path.resolve(__dirname, './navbar-app/index.html'));
+// adding to static resources
+// server side rendering
+// });
 
 app.all('*', (req, res) => {
-  res.status(404).send(`<h1>resource not found</h1>`);
+  res.status(404).send('resource not found');
 });
 
-app.listen(5000, () => {
-  console.log(`server is listening at 5000...`);
+app.listen(3000, () => {
+  console.log('server is listening at 3000...');
 });
-
-/***
- * app.get
- *  app.post
- * app.put
- * app.delete
- * app.all
- * app.use
- * app.listen */
