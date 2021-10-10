@@ -2,10 +2,13 @@ const express = require('express');
 const app = express();
 const { products } = require('./data');
 const logger = require('./logger');
+const authorize = require('./authorize');
 
 // makes every mentioined route use this middleware
 // if we don't mention a route, it makes every route use it.
-app.use('/api', logger);
+app.use('/api', [logger, authorize]);
+
+//
 
 app.get('/', (req, res) => {
   res.send('Home');
@@ -19,7 +22,7 @@ app.get('/api/products', (req, res) => {
   res.send('Products');
 });
 
-app.get('/items', (req, res) => {
+app.get('/api/items', (req, res) => {
   res.send('Items');
 });
 
