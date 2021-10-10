@@ -7,7 +7,7 @@ const authorize = require('./authorize');
 // makes every mentioined route use this middleware
 // if we don't mention a route, it makes every route use it.
 app.use('/api', [logger, authorize]);
-
+app.use(express.static('./public'));
 //
 
 app.get('/', (req, res) => {
